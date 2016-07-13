@@ -1,0 +1,1 @@
+    <link rel="stylesheet" href="{{asset('statics/datetimepicker/css/bootstrap-datetimepicker.min.css')}}">
