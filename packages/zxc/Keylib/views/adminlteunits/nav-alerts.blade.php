@@ -1,7 +1,7 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">{{count($alerts)}}</span>
+              <span class="label label-warning">{{$alerts_num>0?count($alerts):''}}</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">近七日共 {{$alerts_num}} 条预警</li>

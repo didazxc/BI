@@ -28,4 +28,4 @@ hr.report-header{
     -webkit-box-shadow: 0.5px 0.5px 0.5px #999 inset;
 }
 
-table td{word-break: keep-all;white-space:nowrap;}
+table td,table th{word-break: keep-all;white-space:nowrap;}

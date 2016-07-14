@@ -22,7 +22,7 @@
 								<span class="input-group-addon">{{$v['name'] or $k}}</span>
 								<select class="form-control" name="{{$k}}">
 									@foreach($v['options'] as $op_k=>$op_v)
-										<option value="{{$op_k}}" @if($op_k==$v['default']) selected @endif >{{$op_v}}</option>
+										<option value="{{$op_k}}" {{ (array_key_exists('default',$v) && $op_k==$v['default'])?'selected':'' }} >{{$op_v}}</option>
 									@endforeach
 								</select>
 							</div>

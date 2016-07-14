@@ -42,5 +42,41 @@ class KeyAct extends Model
 		];
 		return $PatternList;
 	}
+    public function getColorAttribute()
+	{
+		$ColorList=[
+			'yellow',
+			'orange',
+            'green',
+            'yellow',
+			'green',
+			'aqua',
+			'aqua',
+            'red',
+            'red',
+			'aqua',
+		];
+        $patterns=$this->getPatternListAttribute();
+        $n=array_keys($patterns,$this->pattern,true)[0];
+		return $ColorList[$n];
+	}
+    public function getFaiconAttribute()
+	{
+		$FaiconList=[
+			'dollar',
+			'signing',
+            'star-half-o',
+            'users',
+			'tv',
+			'toggle-off',
+			'refresh',
+            'bug',
+            'anchor',
+			'cicle-o',
+		];
+        $patterns=$this->getPatternListAttribute();
+        $n=array_keys($patterns,$this->pattern,true)[0];
+		return $FaiconList[$n];
+	}
 	
 }

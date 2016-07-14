@@ -16,7 +16,9 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
         
+          @include('keyact::adminlteunits.nav-acts')
           @include('keylib::adminlteunits.nav-alerts')
+          @include('keytask::adminlteunits.nav-tasks')
           @include('keysql::layouts.nav-user')
           <!-- Control Sidebar Toggle Button -->
           <li>

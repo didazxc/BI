@@ -20,6 +20,11 @@ class KeyactServiceProvider extends ServiceProvider
         $this->publishes([
             realpath(__DIR__.'/../config/keyact.php') => config_path('keyact.php'),
         ]);
+        //配置共享视图变量
+        view()->composer(
+            ['keyact::adminlteunits.nav-acts'],
+            'Zxc\Keyact\Http\ViewComposers\NavActsComposer');
+        //绑定自定义命令
         //绑定自定义命令
         $this->commands('command.keyact.migration');
     }

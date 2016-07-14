@@ -19,6 +19,9 @@ class KeytaskServiceProvider extends ServiceProvider
         });
         //配置共享视图变量
         include __DIR__.'/Http/ViewComposers/viewComposers.php';
+        view()->composer(
+            ['keytask::adminlteunits.nav-tasks'],
+            'Zxc\Keytask\Http\ViewComposers\NavTasksComposer');
         //绑定自定义命令
         $this->commands('command.keytask.migration');
     }

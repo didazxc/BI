@@ -5,7 +5,6 @@ namespace Zxc\Keytask;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Mockery\Exception;
-use Illuminate\Support\Facades\Config;
 
 class KeyTask extends Model
 {
@@ -13,7 +12,7 @@ class KeyTask extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = Config::get('keytask.keytask_table');
+        $this->table = config('keytask.keytask_table');
     }
 
     public function join_user(){
@@ -61,6 +60,13 @@ class KeyTask extends Model
         $progress=$this->consumed/($this->consumed+$this->left)*100;
         $progress=round($progress);
         return $progress;
+    }
+    
+    public function getColorAttribute(){
+        $colors=['aqua','green','yellow','red','blue'];
+        $progress=$this->getProgressAttribute();
+        $n=floor($progress*(count($colors)-1)/100);
+        return $colors[$n];
     }
 
 }

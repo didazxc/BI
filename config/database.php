@@ -89,7 +89,7 @@ return [
         
         'qq_sqlsrv' => [
             'driver'   => 'sqlsrv',
-            'host'     => '120.132.38.51',
+            'host'     => '192.168.2.51',#120.132.38.51'
             'port'     => '18991',
             'database' => 'login_stat_qq',
             'username' => 'qq_reader',
