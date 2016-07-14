@@ -3,6 +3,7 @@
 
 
 @section('content')
+
     <div class="container">
         <div class="row" >
 			<form class="report-form col-sm-8 form-inline" id="report-form" method="get" >
@@ -46,12 +47,12 @@
 										<tr>
 											<td>{{$row->act_name}}</td>
 											<td>{{$row->pattern}}</td>
-											<td>{{$row->user->name}}</td>
+											<td>{{$row->username}}</td>
 											<td>{{date('Y-m-d H:i',strtotime($row->online_time))}}</td>
 											<td>{{date('Y-m-d H:i',strtotime($row->offline_time))}}</td>
 											<td>
 												<a class="btn btn-xs" href="{{route('getInfo',['id'=>$row->id])}}">详情</a>
-												@if(Auth::user()->id==$row->userid)
+												@if(Auth::user()->name==$row->username)
 													<a class="btn btn-xs" href="{{route('getEdit',['id'=>$row->id])}}">编辑</a>
 													<a class="btn btn-xs postdel" data-id="{{$row->id}}"/>删除</a>
 												@endif

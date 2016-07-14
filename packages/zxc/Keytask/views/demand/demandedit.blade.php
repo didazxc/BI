@@ -24,10 +24,10 @@
                       <div class="form-group col-sm-4">
                         <div class="input-group">
                             <span class="input-group-addon">分析师</span>
-                            <select class="form-control" name="to_user_id">
+                            <select class="form-control" name="to_user_name">
                                 <option value="0">不指定</option>
                                 @foreach($userlist as $id=>$user)
-                                    <option value="{{$id}}">{{$user}}</option>
+                                    <option>{{$user}}</option>
                                 @endforeach
                             </select>
                         </div>

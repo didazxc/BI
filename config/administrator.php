@@ -79,7 +79,7 @@ return array(
 	 */
 	'permission'=> function()
 	{
-        return Auth::user()->id===1 || Auth::user()->can('admin');
+        return Auth::check() && (Auth::user()->id===1 || Auth::user()->can('admin'));
 	},
 
 	/**

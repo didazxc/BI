@@ -24,7 +24,7 @@ class KeytaskController extends BaseController
         $startdate=$request->input('startdate',date('Y-m-d',strtotime('-7 day')));
         $enddate=$request->input('enddate',date('Y-m-d'));
         $tasklist=KeyTask::whereBetween('created_at',[$startdate,date('Y-m-d',strtotime($enddate.' +1 day'))])
-            ->where('from_user_id',Auth::user()->id)
+            ->where('from_user_name',Auth::user()->name)
             ->orderBy('created_at','desc')
             ->get();
         return view('keytask::demand.demandlist',compact('startdate','enddate','tasklist'));
@@ -60,9 +60,9 @@ class KeytaskController extends BaseController
         
         $task->status='wait';
         $task->name=$request->input('name');
-        $task->from_user_id=Auth::user()->id;
-        if($request->input('to_user_id')){
-            $task->to_user_id=$request->input('to_user_id');
+        $task->from_user_name=Auth::user()->name;
+        if($request->input('to_user_name')){
+            $task->to_user_name=$request->input('to_user_name');
         }
         $task->deadline=$request->input('deadline');
         $task->desc=$request->input('desc');
@@ -155,7 +155,7 @@ class KeytaskController extends BaseController
             $task->estimate=$request->input('estimate');
             $task->status='doing';
             $task->starttime=date('Y-m-d H:i:s');
-            $task->to_user_id=Auth::user()->id;
+            $task->to_user_name=Auth::user()->name;
             $task->save();
             return 1;
         }
@@ -188,7 +188,7 @@ class KeytaskController extends BaseController
         
         $keyhour=new KeyTaskHour();
         $keyhour->task_id=$task_id;
-        $keyhour->user_id=Auth::user()->id;
+        $keyhour->user_name=Auth::user()->name;
         $keyhour->logtime=$request->input('logtime');
         $keyhour->operation='taskhour-set';
         $keyhour->consumed=$request->input('consumed');
@@ -201,8 +201,7 @@ class KeytaskController extends BaseController
         $task->save();
         
         if($request->has('hour')){
-            $username=$keyhour->user->name;
-            return compact('keyhour','username');
+            return compact('keyhour');
         }
         
         return $task->progress;

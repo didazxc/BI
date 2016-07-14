@@ -44,7 +44,7 @@ class KeyLibSetupTables extends Migration
             $table->string('name',64);
             $table->string('user',64);
             $table->tinyInteger('pro')->defalut(0);#严重程度
-            $table->string('alert_keys',1024);
+            $table->string('faicon',64)->defalut('warning');#fa图标
             $table->text('alert_desc');
             $table->primary(['logtime','name']);
         });

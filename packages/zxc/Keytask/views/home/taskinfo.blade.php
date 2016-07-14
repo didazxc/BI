@@ -18,7 +18,7 @@
                                     <td>创建日期:</td><td>{{$task->created_at}}</td>
                                 </tr>
                                 <tr>
-                                    <td>创建者:</td><td>{{$task->from_user->name}}</td>
+                                    <td>创建者:</td><td>{{$task->from_user_name}}</td>
                                     <td>优先级:</td><td>{{$task->pri}}</td>
                                     <td>截至日期:</td><td>{{$task->deadline}}</td>
                                 </tr>
@@ -33,8 +33,8 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>指派给:</td><td>{{$task->to_user->name or ''}}</td>
-                                <td>接口人:</td><td>{{$task->join_user->name or ''}}</td>
+                                <td>指派给:</td><td>{{$task->to_user_name or ''}}</td>
+                                <td>接口人:</td><td>{{$task->join_user_name or ''}}</td>
                                 <td>当前状态:</td><td>{{$task->status}}</td>
                             </tr>
                             <tr>
@@ -79,7 +79,7 @@
                                 @foreach($taskhours as $hour)
                                     <tr data-hourid="{{$hour->id}}">
                                         <td>{{$hour->logtime}}</td>
-                                        <td>{{$hour->user->name}}</td>
+                                        <td>{{$hour->user_name}}</td>
                                         <td>{{$hour->operation}}</td>
                                         <td>{{$hour->consumed}}</td>
                                         <td>{{$hour->left}}</td>

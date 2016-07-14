@@ -15,9 +15,9 @@ class KeyTaskSetupTables extends Migration
         Schema::create('{{$key_task}}', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('from_user_id')->unsigned();//创建人
-			$table->integer('join_user_id')->unsigned();//接口人（指派任务时指定）
-            $table->integer('to_user_id')->unsigned();//指派给接受人
+            $table->string('from_user_name',64);//创建人
+			$table->string('join_user_name',64);//接口人（指派任务时指定）
+            $table->string('to_user_name',64);//指派给接受人
             $table->string('name',255);//需求或任务名称
             $table->tinyInteger('pri')->unsigned();//优先级
             $table->decimal('estimate',12,1);//预计时间
@@ -36,7 +36,7 @@ class KeyTaskSetupTables extends Migration
             $table->increments('id');
             $table->date('logtime');//可补录，工作日期
             $table->integer('task_id')->unsigned();//外键
-            $table->integer('user_id')->unsigned();//操作用户
+            $table->string('user_name',64);//操作用户
             $table->string('operation',255);//操作内容：'hour-set'，'waitting','doing','done','cancelling','cancelled','success'
             $table->decimal('consumed',12,1);//消耗工时
             $table->decimal('left',12,1);//预计剩余

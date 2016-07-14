@@ -17,15 +17,15 @@ class KeyTask extends Model
     }
 
     public function join_user(){
-        return $this->belongsTo('App\User','join_user_id','id');
+        return $this->belongsTo('App\User','join_user_name','name');
     }
 
     public function from_user(){
-        return $this->belongsTo('App\User','from_user_id','id');
+        return $this->belongsTo('App\User','from_user_name','name');
     }
 
     public function to_user(){
-        return $this->hasOne('App\User','id','to_user_id');
+        return $this->hasOne('App\User','name','to_user_name');
     }
 
     public function task_hours(){

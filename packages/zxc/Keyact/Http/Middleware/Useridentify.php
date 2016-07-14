@@ -41,7 +41,7 @@ class Useridentify
     {
 		//if(!$this->auth->has('admin')){}
         if ($request->input('id')) {
-            if(KeyAct::find($request->input('id'))->userid!=$this->auth->user()->id){
+            if(KeyAct::find($request->input('id'))->username!=$this->auth->user()->name){
 				return Redirect::route('home');
 			}
         }

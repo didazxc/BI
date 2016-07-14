@@ -34,7 +34,7 @@ class KeyactController extends BaseController
 			'offline_time' => 'required',
 		]);
 		$act=$request->input('id')?KeyAct::find($request->input('id')):new KeyAct();
-		$act->userid=Auth::user()->id;
+		$act->username=Auth::user()->name;
 		$act->pattern=$request->input('pattern');
 		$act->act_name=$request->input('act_name');
 		$act->goal=$request->input('goal');
@@ -51,7 +51,7 @@ class KeyactController extends BaseController
 		$startdate=$request->input('startdate',date('Y-m-d',strtotime('-14 day')));
 		$enddate=$request->input('enddate',date('Y-m-d',strtotime('+14 day')));
 		$list=KeyAct::whereBetween('online_time',[$startdate,$enddate])->get();
-		return view('keyact::home.list',compact('list','startdate','enddate'));
+        return view('keyact::home.list',compact('list','startdate','enddate'));
 	}
 	
 	public function getInfo(Request $request)

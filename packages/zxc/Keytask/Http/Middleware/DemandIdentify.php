@@ -41,7 +41,7 @@ class DemandIdentify
     {
         $task_id=$request->input('id');
         if ($task_id) {
-            if(KeyTask::find($task_id)->from_user_id!=$this->auth->user()->id){
+            if(KeyTask::find($task_id)->from_user_name!=$this->auth->user()->name){
 				abort(503);
 			}
         }

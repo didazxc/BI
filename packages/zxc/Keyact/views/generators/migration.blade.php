@@ -15,7 +15,7 @@ class KeyActSetupTables extends Migration
         Schema::create('{{$key_act}}', function(Blueprint $table)
         {			
 			$table->bigIncrements('id');
-            $table->integer('userid')->unsigned();//创建者
+            $table->string('username',64);//创建者
             $table->string('pattern',255);//活动名称
             $table->string('act_name',255);//类型
             $table->string('goal',3000);//目标json

@@ -65,6 +65,8 @@ class KeyLibSql extends Model
                 for($i=0;$i<6-$vsn;++$i){
                     $vs[$i]='_null_';
                 }
+            }else{
+                $vs=$vs0;
             }
 
             $opt=$vs[1]=='next'?'+':'-';

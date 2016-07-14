@@ -96,6 +96,136 @@ class KeySql extends Model
     
     
 //数据查询逻辑——————————————————————————————————————————————————————————————
+    
+    /**
+     * 系统规则的变量
+     * $_daily_last_0_month_end_time
+     * var0: daily weekly monthly 周期第一天
+     * var1: last next 加减
+     * var2: int 数量
+     * var3: 间隔
+     * var4: start end 基准
+     * var5: date横线日期 date0数字日期 time秒 time0毫秒 yyyymmdd yyyy mm dd 日期形式
+     * @param $startdate
+     * @param $enddate
+     * @return array
+     */
+    private function getSysVars($cycle=1,$startdate,$enddate){
+        
+        $cycle_array=[
+            'daily'=>1,
+            'weekly'=>2,
+            'monthly'=>4,
+            'realtime'=>8,
+            'day'=>1,
+            'week'=>2,
+            'month'=>4,
+            '1'=>1,
+            '2'=>2,
+            '4'=>4,
+            '8'=>8
+        ];
+        $cycle=$cycle_array[$cycle];
+        //1、指定日期
+        switch($cycle){
+            case 8:
+                $startdate=$startdate?date('Y-m-d H:i:s',strtotime($startdate)):date('Y-m-d H:i:s',strtotime('-1 hour'));
+                $enddate=$enddate?date('Y-m-d H:i:s',strtotime($enddate)):date('Y-m-d H:i:s');
+                break;
+            case 4:
+                $startdate=$startdate?date('Y-m-01',strtotime($startdate)):date('Y-m-01',strtotime('-1 month'));
+                $enddate=$enddate?date('Y-m-01',strtotime($enddate)):date('Y-m-01');
+                break;
+            case 2:
+                $startdate=$startdate?date('Y-m-d',strtotime($startdate.' sunday -6 day')):date('Y-m-d',strtotime('last sunday -6 day'));
+                $enddate=$enddate?date('Y-m-d',strtotime($enddate.' sunday -6 day')):date('Y-m-d',strtotime('sunday -6 day'));
+                break;
+            case 1:
+            default:
+                $startdate=$startdate?date('Y-m-d',strtotime($startdate)):date('Y-m-d',strtotime('-1 day'));
+                $enddate=$enddate?date('Y-m-d',strtotime($enddate)):date('Y-m-d');
+                break;
+        }
+        //2、获取sql中预埋的变量
+        $sqlstr=$this->sqlstr;
+        if($sqlstr){
+            preg_match_all('/(?<=\$_)\w+/i',$sqlstr,$matches);
+            $var_array=$matches[0];
+        }
+        $sys_vars=[];
+        //3、解析每一个变量
+        foreach($var_array as $var){
+            
+            $vs0=explode('_',$var);
+            $vsn=count($vs0);
+            $vs=[];
+            if($vsn<6){
+                for($i=0;$i<$vsn;++$i){
+                    $vs[$i+6-$vsn]=$vs0[$i];
+                }
+                for($i=0;$i<6-$vsn;++$i){
+                    $vs[$i]='_null_';
+                }
+            }else{
+                $vs=$vs0;
+            }
+            $opt=$vs[1]=='next'?'+':'-';
+            $intcrement=($vs[2] && $vs[2]!='_null_')?$vs[2]:'0';
+            $interval=($vs[3]&& $vs[2]!='_null_')?$vs[3]:'day';
+
+            if($interval=='cycle'){
+                switch($cycle){
+                    case 2:
+                        $interval='week';
+                        break;
+                    case 4:
+                        $interval='month';
+                        break;
+                    case 1:
+                    default:
+                        $interval='day';
+                        break;
+                }
+            }
+
+            if($vs[4]=='start'){
+                $thisdate=$startdate;
+            }else{
+                $thisdate=$enddate;
+            }
+            switch($vs[0]){
+                case 'monthly':
+                    $thisv=strtotime(date('Y-m-1',strtotime("$thisdate $opt$intcrement $interval")));
+                    break;
+                case 'weekly':
+                    $thisv=strtotime("$thisdate $opt$intcrement sunday -6 day");
+                    break;
+                case 'daily':
+                default:
+                    $thisv=strtotime("$thisdate $opt$intcrement $interval");
+            }
+            switch($vs[5]){
+                case 'date':
+                    $thisv=date('Y-m-d',$thisv);
+                    break;
+                case 'date0':
+                    $thisv=date('Ymd',$thisv);
+                    break;
+                case 'time0':
+                    break;
+                case 'time':
+                    $thisv=$thisv*1000;
+                    break;
+                default:
+                    $thisv=date($vs[5],$thisv);
+                    break;
+            }
+            $sys_vars['_'.$var]=$thisv;
+        }
+
+        return $sys_vars;
+    }
+    
     //对提交上来的form_array做预处理
     protected function parseFormArray($form_array=[])
     {
@@ -129,9 +259,10 @@ class KeySql extends Model
     }
 
     //解析sql语句
-    protected function getSQL($form_array=[])
+    protected function getSQL($form_array=[],$cycle=1)
     {
         extract($this->parseFormArray($form_array));
+        extract($this->getSysVars($cycle,$startdate,$enddate));
         $value=$this->sqlstr;
         eval("\$sqlstr=\"$value\";");
         if($this->conn=='qq_sqlsrv'){
@@ -263,13 +394,13 @@ class KeySql extends Model
 
 //自动更新——————————————————————————————————————————
     //更新临时表内的数据
-    public function updatData($startdate='',$enddate='',$debug=false)
+    public function updateData($cycle=1,$startdate='',$enddate='',$debug=false)
     {
         if(trim($this->realtable())){
             $form_array['startdate']=$startdate;
             $form_array['enddate']=$enddate;
             try{
-                $sql=$this->getSQL($form_array);
+                $sql=$this->getSQL($form_array,$cycle);
                 $data=$this->getDbData($sql);
                 if(!$data){
                     throw new Exception('空数据');
@@ -321,7 +452,7 @@ class KeySql extends Model
             if($debug){
                 echo '执行id='.$sql_i->id.'的SQL语句：'.chr(13).chr(10);
             }
-            $sql_i->updatData($startdate,$enddate,$debug);
+            $sql_i->updateData($cycle,$startdate,$enddate,$debug);
             if($debug){
                 echo '执行成功！'.chr(13).chr(10);
             }

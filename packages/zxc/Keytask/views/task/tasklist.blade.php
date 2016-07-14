@@ -49,10 +49,10 @@
                         @endif
                         >
                             <td>{{$task->name}}</td>
-                            <td>{{$task->from_user->name or ''}}</td>
+                            <td>{{$task->from_user_name or ''}}</td>
                             <td>{{date('m/d H:i',strtotime($task->created_at))}}</td>
                             <td>{{date('m/d H:i',strtotime($task->deadline))}}</td>
-                            <td class="touser">{{$task->to_user->name or ''}}</td>
+                            <td class="touser">{{$task->to_user_name or ''}}</td>
                             <td class="status">
                                 @if($task->status=='doing')
                                     <div class="progress" style="margin:0;">

@@ -22,7 +22,7 @@
                                 <th>需求名称：</th>
                                 <td>{{$task->name}}</td>
                                 <th>申请人：</th>
-                                <td>{{$task->from_user->name}}</td>
+                                <td>{{$task->from_user_name}}</td>
                                 
                             </tr>
                             <tr>
@@ -107,7 +107,7 @@
                                     @foreach($taskhours as $hour)
                                         <tr>
                                             <td>{{$hour->logtime}}</td>
-                                            <td>{{$hour->user->name}}</td>
+                                            <td>{{$hour->user_name}}</td>
                                             <td>{{$hour->operation}}</td>
                                             <td>{{$hour->consumed}}</td>
                                             <td>{{$hour->left}}</td>
@@ -216,7 +216,7 @@
                             $('#taskhour-modal-lg').modal('hide');
                             d=data['keyhour'];
                             $('#taskhour-list tbody').prepend('<tr><td>'+d['logtime']+'</td>\r\n'+
-                                            '<td>'+data['username']+'</td>\r\n'+
+                                            '<td>'+d['user_name']+'</td>\r\n'+
                                             '<td>'+d['operation']+'</td>\r\n'+
                                             '<td>'+d['consumed']+'</td>\r\n'+
                                             '<td>'+d['left']+'</td>\r\n'+

@@ -40,7 +40,7 @@
                                 <td rowspan="{{$hour->rowspan}}" >{{$hour->logtime}}</td>
                             @endif
                             @if($hour->name_rowspan)
-                                <td rowspan="{{$hour->name_rowspan}}" >{{$hour->user->name}}</td>
+                                <td rowspan="{{$hour->name_rowspan}}" >{{$hour->user_name}}</td>
                             @endif
                             <td>{{$hour->task->name}}</td>
                             <td>{{$hour->consumed}}</td>
