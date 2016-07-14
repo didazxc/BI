@@ -39,7 +39,7 @@
                 </section><!-- /.content -->
             </div><!-- /.content-wrapper -->
             @include('keysql::layouts.footer')
-            @include('keysql::layouts.controlbar')
+            
         </div><!-- ./wrapper -->
         <!-- jQuery 2.2.4 -->
         <script src="{{asset('statics/jquery/jquery-2.2.4.min.js')}}"></script>
