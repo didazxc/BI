@@ -12,7 +12,7 @@
 */
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', function () {  
-        return \Illuminate\Support\Facades\Redirect::to('/keysql');
+        return \Illuminate\Support\Facades\Redirect::to('/keysql/27');
     });
     Route::get('/home', function(){
         return \Illuminate\Support\Facades\Redirect::to('/keysql');

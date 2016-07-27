@@ -31,7 +31,7 @@
 		</ul>
 		<br/>
         <div class="row">
-			<form class="report-form col-sm-12" id="report-form" method="post" action="{{route('postEdit')}}">
+			<form class="report-form col-sm-12" id="report-form" method="post" action="{{route('postActEdit')}}">
 				<input type="hidden" name="id" value="{{$act->id or 0}}">
 				<input type="hidden" name="_token" value="{!! csrf_token() !!}">
 				@if (count($errors) > 0)
@@ -48,24 +48,24 @@
 						<div class="form-inline">
 							<div class="input-group">
 								<span class="input-group-addon">名称</span>
-								<input class="form-control" type="text" name="act_name" value="{{$act->act_name}}">
+								<input class="form-control" type="text" name="act_name" value="{{$act->act_name or old('act_name')}}">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">类型</span>
 								<select class="form-control" name="pattern">
 									@foreach($act->patternList as $pattern)
-										<option @if($pattern==$act->pattern)selected @endif>{{$pattern}}</option>
+										<option @if($pattern==($act->pattern?$act->pattern:old('pattern')))selected @endif>{{$pattern}}</option>
 									@endforeach
 								</select>
 							</div>
-							<div class="input-group date form_datetime"  data-date="{{$act->online_time or date('Y-m-d H:i')}}" data-date-format="yyyy-mm-dd hh:ii" >
+							<div class="input-group date form_datetime"  data-date="{{$act->online_time or ''}}" data-date-format="yyyy-mm-dd hh:ii" >
 								<span class="input-group-addon">上线时间</span>
-								<input class="form-control" name="online_time" size="15" type="text" value="{{$act->online_time or date('Y-m-d H:i')}}" autocomplete="off" readonly />
+								<input class="form-control" name="online_time" size="15" type="text" value="{{$act->online_time or old('online_time')}}" autocomplete="off"  />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
-							<div class="input-group date form_datetime"  data-date="{{$act->offline_time or date('Y-m-d H:i')}}" data-date-format="yyyy-mm-dd hh:ii" >
+							<div class="input-group date form_datetime"  data-date="{{$act->offline_time or ''}}" data-date-format="yyyy-mm-dd hh:ii" >
 								<span class="input-group-addon">下线时间</span>
-								<input class="form-control" name="offline_time" size="15" type="text" value="{{$act->offline_time or date('Y-m-d H:i')}}" autocomplete="off" readonly />
+								<input class="form-control" name="offline_time" size="15" type="text" value="{{$act->offline_time or old('offline_time')}}" autocomplete="off"  />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 						</div>
@@ -76,8 +76,8 @@
 						<table id="goal" class="table table-hover table-bordered table-condensed text-center">
 							<thead><tr><td>指标</td><td>评价方式</td><td>数值</td></tr></thead>
 							<tbody>
-							@if($act->goal)
-							@foreach($act->goal as $k=>$v)
+							@if($act->goal || old('goal'))
+							@foreach($act->goal?$act->goal:old('goal') as $k=>$v)
 								<tr>
 									<td><input type="text" name="goal[{{$k}}][key]" value="{{$v['key']}}"></td>
 									<td><input type="text" name="goal[{{$k}}][type]" value="{{$v['type']}}"></td>
@@ -95,10 +95,10 @@
 						</table>
 						<br/>
 						<label for="online_intro" class="control-label">上线说明:</label>
-						<textarea name="online_intro" id="online_intro">{{$act->online_intro}}</textarea>
+						<textarea name="online_intro" id="online_intro">{{$act->online_intro or old('online_intro')}}</textarea>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="offline_intro_tab">
-						<textarea name="offline_intro" id="offline_intro">{{$act->offline_intro}}</textarea>
+						<textarea name="offline_intro" id="offline_intro">{{$act->offline_intro or old('offline_intro')}}</textarea>
 					</div>
 				</div>
 				<br/>

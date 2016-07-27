@@ -13,11 +13,12 @@
 				$(".mask").fadeIn();
 				formajax();
 			@elseif($form['_submit']['type']=='interval')
-				window.setInterval(function(){ 
+				formajax();
+                window.setInterval(function(){ 
 					formajax();
 				}, {{intval($form['_submit']['time'])*60*1000}});
 			@elseif($form['_submit']['type']=='timeout')
-				window.setTimeout(function(){ 
+                window.setTimeout(function(){ 
 					formajax();
 				}, {{intval($form['_submit']['time'])*60*1000}});
 			@endif
@@ -28,7 +29,7 @@
                     cache: true,
                     type: 'POST',
                     data:$('#report-form').serialize(),
-                    url:'{{route($routename)}}',
+                    url:'{{route($routename,["nav_id"=>$nav_id])}}',
                     async: true,
                     error: function(request) {
                         $("#loader").fadeOut(300);
@@ -39,12 +40,14 @@
                         if(rawdata['error']){
                             alert(rawdata['error']);
                         }
-                        var table=datatable_ajax('datatable',rawdata);
+                        if(rawdata['columns'].length){
+                            var table=datatable_ajax('datatable',rawdata);
+                            @if($echarts)
+                                echartsvendor(rawdata);
+                            @endif
+                        }
                         $("#loader").fadeOut(300);
                         $(".mask").fadeOut(300);
-                        @if($echarts)
-                            echartsvendor(rawdata);
-                        @endif
                     }
                 })
         }

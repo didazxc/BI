@@ -10,7 +10,7 @@ return array(
 
     'single' => 'key',
 
-    'model' => 'Zxc\Keylib\KeyLibDic',
+    'model' => 'Zxc\Keylib\Models\KeyLibDic',
 
     /**
      * The display columns

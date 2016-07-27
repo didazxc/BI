@@ -58,7 +58,7 @@ class KeyLib extends Model{
      */
     static function insData($result,$key_id_json_array,$intotable=''){
         if($intotable==''){
-            $intotable=Config::get('keylib.keylib_table');
+            $intotable=config('keylib.keylib_table');
         }
         $data=KeyLib::res2insData($result,$key_id_json_array);
         $replace_sql=Helper::my_ReplaceSql($intotable,$data);

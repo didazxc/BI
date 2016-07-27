@@ -4,6 +4,8 @@ namespace Zxc\Keylib\Console\Commands;
 
 use Illuminate\Console\Command;
 use Zxc\Keylib\Models\KeyLibSql;
+use Log;
+use Exception;
 
 class UpdateKeyLib extends Command
 {
@@ -28,13 +30,26 @@ class UpdateKeyLib extends Command
      */
     public function handle()
     {
+        echo '更新KeyLib数据'.chr(13).chr(10);
+        ob_start();
         
-        echo '更新KeyLib数据...'.chr(13).chr(10);
-        $t1=time();
-        $id_array=json_decode($this->argument('id_array'));
-        KeyLibSql::updateKeyLib($this->argument('cycle'),$this->argument('startdate'),$this->argument('enddate'),$id_array,true);
-        $t2=time();
-        echo 'KeyLib数据更新完毕，用时'.($t2-$t1).'秒';
+            $t1=time();
+            $id_array=json_decode($this->argument('id_array'));
+            KeyLibSql::updateKeyLib($this->argument('cycle'),$this->argument('startdate'),$this->argument('enddate'),$id_array,true);
+            $t2=time();
+            echo 'KeyLib数据更新完毕，用时'.($t2-$t1).'秒';
+        
+        $string = ob_get_contents();
+        $title='更新KeyLib数据: '.implode(' ',$this->argument()).' 用时'.($t2-$t1).'秒';
+        $logstr=$title.chr(13).chr(10).$string;
+        if(strpos($string,'失败')){
+            Log::warning($logstr);
+        }elseif($this->argument('cycle')!='realtime'){
+            Log::info($logstr);
+        }
+        
+        ob_flush();
+        ob_end_clean();
     }
 
 

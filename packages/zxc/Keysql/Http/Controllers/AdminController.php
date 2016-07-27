@@ -15,6 +15,7 @@ class AdminController extends BaseController{
             ['keysql::layouts.sidebar','keysql::layouts.breadcrumb'],
             'Zxc\Keysql\Http\ViewComposers\AdminNavComposer');
     }
+    
     public function index(){
         return view('keysql::admin.home',['sysname'=>config('keysql.sysname')]);
     }
@@ -35,7 +36,7 @@ class AdminController extends BaseController{
         $root=KeySqlNav::withDepth()->find($root_id);
         $root_depth=$root->depth;
         $keysql_nav_tree=KeySqlNav::withDepth()->descendantsOf($root_id)->toTree();
-        debug($keysql_nav_tree);
+
         $select_list=[$home_node_id=>'home',2=>'admin',1=>'root'];
         return view('keysql::admin.keysqlnav',compact('keysql_nav_tree','root_depth','select_list','root_id'));
     }
@@ -51,8 +52,9 @@ class AdminController extends BaseController{
                 $nav=new KeySqlNav;
             }
             $nav->parent_id=$request->input('pid');
-            $nav->user_id=Auth::user()->id;
+            $nav->username=Auth::user()->name;
             $nav->name=$request->input('name');
+            $nav->permission=$request->input('permission','');
             $nav->href=$request->input('href','0');
             $nav->desc=$request->input('desc','');
             $nav->fa_icon=$request->input('fa_icon');
@@ -103,7 +105,7 @@ class AdminController extends BaseController{
                 $keysql=new KeySql;
             }
             $keysql->sqlstr=$request->input('sqlstr');
-            $keysql->user_id=Auth::user()->id;
+            $keysql->username=Auth::user()->name;
             $keysql->key_id_json=trim($request->input('key_id_json'));
             $keysql->var_json=trim($request->input('var_json'));
             $keysql->echart_json=trim($request->input('echart_json'));
@@ -115,6 +117,7 @@ class AdminController extends BaseController{
             $keysql->sql_desc=$request->input('sql_desc');
             $keysql->save();
         }
+        
         $sql_id=$keysql->id;
         return $sql_id;
     }
@@ -148,5 +151,5 @@ class AdminController extends BaseController{
         $res=$keysql->getTableData($request->input());
         return $res;
     }
-
+ 
 }

@@ -108,7 +108,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,10 +165,12 @@ return [
         Frozennode\Administrator\AdministratorServiceProvider::class,
         //Debugbar
         Barryvdh\Debugbar\ServiceProvider::class,
-        
+        //Log Viewer
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
         //zxc packages
         Zxc\Keysql\KeysqlServiceProvider::class,
         Zxc\Keylib\KeylibServiceProvider::class,
+        Zxc\Keyalert\KeyalertServiceProvider::class,
         Zxc\Keytask\KeytaskServiceProvider::class,
         Zxc\Keyact\KeyactServiceProvider::class,
     ],

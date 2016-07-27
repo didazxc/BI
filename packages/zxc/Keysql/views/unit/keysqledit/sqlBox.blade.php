@@ -91,6 +91,10 @@ LIMIT 1 OFFSET 0;
                             <br/>5.default：字段默认值，当type为日期型时优先使用default_off，select时使用option的键
                             <br/>6.options：当type为select时，作为选项使用，键值对数组
                             <br/>7.desc：描述，作为tooltip展示
+                            <br/>
+                            <strong>自动提交_submit：</strong>
+                            <br/>1.type：timeout一次性，interval间隔性
+                            <br/>2.time：时间，分钟，timeout时为延迟提交的时间，interval时为间隔提交时间
                         </div>
                         <article>
                             <textarea id="var_json" name="var_json">

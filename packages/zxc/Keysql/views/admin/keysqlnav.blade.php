@@ -64,7 +64,7 @@
                             <i class="fa {{$node['fa_icon']}}"></i>
                             {{$node['name']}}
                         </td>
-                        <td>{{config('keysql.permission_prefix').$node['id']}}</td>
+                        <td>{{$node['permission']}}</td>
                         @if($node['sql_id'])
                             <td><a href="{{route('getAdminKeysql',['id'=>$node['sql_id']])}}">{{$node['sql_id']}}</a></td>
                             <td>{{$node['keysql']['sql_desc'] or ''}}</td>
@@ -143,6 +143,12 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="inputPermission" class="col-sm-2 control-label">权限</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputPermission" name="permission" placeholder="可不填写，管理员具有查看权限">
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -154,18 +160,8 @@
     </div>
 @endsection
 
-@section('css')
-    <link rel="stylesheet" href="{{asset('statics/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('statics/multiselect/dist/css/bootstrap-multiselect.css')}}">
-@endsection
-
 @section('script')
-    <script src="{{asset('statics/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('statics/DataTables/extensions/Responsive/js/responsive.bootstrap.min.js')}}"></script>
-    <script src="{{asset('statics/multiselect/dist/js/bootstrap-multiselect.js')}}"></script>
-    
     <script type="text/javascript">
-
         function saveNav(){
             $.ajax({
                 url: '{{route('postKeysqlnav')}}',
@@ -228,6 +224,7 @@
                     };
                     $('#inputId').val(d['thisnav']['id']);
                     $('#inputName').val(d['thisnav']['name']);
+                    $('#inputPermission').val(d['thisnav']['permission']);
                     $('#inputDesc').val(d['thisnav']['desc']);
                     $('#inputHref').val(d['thisnav']['href']);
                     $('#inputFaIcon').val(d['thisnav']['fa_icon']);

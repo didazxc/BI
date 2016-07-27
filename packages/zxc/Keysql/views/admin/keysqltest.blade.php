@@ -1,9 +1,5 @@
 @extends('keysql::admin.home')
 
-@section('css')
-    @include('keysql::unit.keysql.varformCss')
-@endsection
-
 @section('content')
     <div class="container-fluid">
     <div class="row">
@@ -26,7 +22,7 @@
 @section('script')
     @include('keysql::unit.keysql.varformJs')
     @include('keysql::unit.keysql.echartsJs')
-    @include('keysql::unit.keysql.keysqlJs',['routename'=>'postAdminKeysqltest'])
+    @include('keysql::unit.keysql.keysqlJs',['routename'=>'postAdminKeysqltest','nav_id'=>0])
     <script type="text/javascript">
         function del_ajax(type){
             $("#loader").fadeIn();

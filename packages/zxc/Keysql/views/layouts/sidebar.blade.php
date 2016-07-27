@@ -38,7 +38,7 @@ $traverse = function ($categories) use (&$traverse,$path) {
 ?>
 <li class="treeview @if($path->find($nav->id)) active @endif">
     <a href="#">
-        <i class="fa {{$nav->fa_icon or 'fa-circle-o'}}"></i> 
+        <i class="fa {{$nav->fa_icon?$nav->fa_icon:'fa-circle-o'}}"></i> 
         <span>{{$nav->name}}</span>
         <i class="fa fa-angle-left pull-right"></i>
     </a>
@@ -53,7 +53,7 @@ $traverse = function ($categories) use (&$traverse,$path) {
 ?>
 <li class="@if($path->find($nav->id)) active @endif">
     <a href="{{$nav->href}}">
-        <i class="fa {{$nav->fa_icon or 'fa-circle-o'}}"></i>
+        <i class="fa {{$nav->fa_icon?$nav->fa_icon:'fa-circle-o'}}"></i>
         <span>{{$nav->name}}</span>
     </a>
 </li>

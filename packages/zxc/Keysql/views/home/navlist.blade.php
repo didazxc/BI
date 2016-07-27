@@ -1,6 +1,5 @@
 @extends('keysql::home.home')
 
-
 @section('content')
     <div class="container-fluid">
     <div class="row">

@@ -22,7 +22,7 @@
 				<input type="submit" id="submit" class="btn btn-primary form-group" value="提交查询">
 			</form>
 			<div class="form-inline pull-right">
-                <a class="btn btn-primary" href="{{route('getEdit')}}">新建事件</a>
+                <a class="btn btn-primary" href="{{route('actEdit')}}">新建事件</a>
             </div>
 		</div>
 		<hr class="report-header"/>
@@ -51,9 +51,9 @@
 											<td>{{date('Y-m-d H:i',strtotime($row->online_time))}}</td>
 											<td>{{date('Y-m-d H:i',strtotime($row->offline_time))}}</td>
 											<td>
-												<a class="btn btn-xs" href="{{route('getInfo',['id'=>$row->id])}}">详情</a>
+												<a class="btn btn-xs" href="{{route('actInfo',['id'=>$row->id])}}">详情</a>
 												@if(Auth::user()->name==$row->username)
-													<a class="btn btn-xs" href="{{route('getEdit',['id'=>$row->id])}}">编辑</a>
+													<a class="btn btn-xs" href="{{route('actEdit',['id'=>$row->id])}}">编辑</a>
 													<a class="btn btn-xs postdel" data-id="{{$row->id}}"/>删除</a>
 												@endif
 											</td>
@@ -88,7 +88,7 @@
 					cache: true,
 					type: 'POST',
 					data: {id:$(this).data('id')},
-					url:'{{route('postDel')}}',
+					url:'{{route('postActDel')}}',
 					async: true,
 					error: function(request) {
 						$("#loader").fadeOut(300);

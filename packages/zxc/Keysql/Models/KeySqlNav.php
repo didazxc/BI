@@ -14,7 +14,7 @@ class KeySqlNav extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('keysql.keysqlnav_table');
+        $this->table = config('keysql.keysqlnav_table','zxc__key_sql_nav');
     }
     
     public function keysql(){
@@ -23,14 +23,23 @@ class KeySqlNav extends Model
     
     public function user()
     {
-        return $this->belongsTo('App\User','user_id','id');
+        return $this->belongsTo('App\User','username','name');
     }
 
     public function getHrefAttribute($href){
         if($this->sql_id){
+            
             return route('getKeysql',['nav_id'=>$this->id]);
         }
         return $href;
     }
 
+    public function getPermissionAttribute($value){
+        if(strlen($value)){
+            return $value;
+        }else{
+            return config('keysql.permission_prefix','keysql/').$this->id;
+        }
+    }
+    
 }

@@ -6,24 +6,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{{config('keysql.sysname')}}</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-       
-        
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="{{asset('statics/bootstrap/css/bootstrap.min.css')}}">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{asset('statics/Font-Awesome/css/font-awesome.min.css')}}">
-        <!-- Ion Icons -->
-        <link rel="stylesheet" href="{{asset('statics/ionicons/css/ionicons.min.css')}}">
-        <!-- AdminLTE 2 -->
-        <link rel="stylesheet" href="{{asset('statics/AdminLTE2/dist/css/AdminLTE.min.css')}}">
-        <!-- App Setup -->
-        <link rel="stylesheet" href="{{asset('packages/zxc/css/app.css')}}">
-        
+        @foreach($css as $url)
+        <link rel="stylesheet" href="{{$url}}">
+        @endforeach
         @section('css_section')
             @yield('css')
         @show
+        <!-- [if lt IE 9]>
+        @foreach ($headjs_ie8 as $url)
+            <script src="{{$url}}" type="text/javascript" charset="UTF-8"></script>
+        @endforeach
+        <![endif] -->
+        <!-- [if gte IE 9]><!-->
+        @foreach ($headjs as $url)
+            <script src="{{$url}}" type="text/javascript" charset="UTF-8"></script>
+        @endforeach
+        <!-- <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-mini layout-boxed" id="body">
+    <body class="hold-transition skin-blue sidebar-mini" id="body">
         <!-- Preloader -->
         <div class="mask"><div id="loader"><i class="fa fa-2x fa-spinner fa-pulse"></i></div></div>
         <!--/Preloader -->
@@ -41,16 +41,9 @@
             @include('keysql::layouts.footer')
             
         </div><!-- ./wrapper -->
-        <!-- jQuery 2.2.4 -->
-        <script src="{{asset('statics/jquery/jquery-2.2.4.min.js')}}"></script>
-        <!-- Bootstrap 3.3.5 -->
-        <script src="{{asset('statics/bootstrap/js/bootstrap.min.js')}}"></script>
-        
-        <!-- AdminLTE 2 -->
-        <script src="{{asset('statics/AdminLTE2/dist/js/app.min.js')}}"></script>
-        <!-- App Setup -->
-        <script src="{{asset('packages/zxc/js/app.js')}}"></script>
-        
+        @foreach($js as $url)
+        <script src="{{$url}}"></script>
+        @endforeach
         @section('script_section')
             @yield('script')
         @show

@@ -69,6 +69,7 @@ return array(
         '用户管理'=>array('users','roles','permissions'),
         '会话管理'=>array('sessions'),
         'KEYLIB管理'=>array('keyLibDic','keyLibSql'),
+        '预警管理'=>array('keyAlertScripts'),
     ),
   
 	/**

@@ -8,7 +8,7 @@
 			<div class="panel panel-default" id="panel">
 				<div class="panel-heading text-center">用户登录</div>
 				<div class="panel-body">
-					@if (count($errors) > 0)
+                    @if (count($errors) > 0)
                         <div class="alert alert-danger alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong>抱歉!</strong> 您的输入有误～
@@ -58,10 +58,14 @@
 								<button type="submit" class="btn btn-primary btn-block">登录</button>
 							</div>
 						</div>
-
 					</form>
+                    <div class="col-xs-12">
+                    <a class="pull-right" href="http://118.26.153.50">>>返回旧版</a>
+                    </div>
 				</div>
+                
 			</div>
+            
 		</div>
 	</div>
 </div>

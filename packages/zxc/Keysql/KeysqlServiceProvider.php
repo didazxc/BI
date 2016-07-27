@@ -30,29 +30,16 @@ class KeysqlServiceProvider extends ServiceProvider
             __DIR__.'/../public' => public_path(KeysqlServiceprovider::$public_path),
         ], 'public');
         //配置共享视图变量
-        //include __DIR__.'/Http/ViewComposers/viewComposers.php';
-        //绑定自定义命令
-        $this->commands('command.keysql.migration');
-        $this->commands('command.keysql.update');
-        $this->commands('command.keysql.py');
-        $this->commands('command.keysql.r');
+        include __DIR__.'/Http/ViewComposers/viewComposers.php';
     }
 
     public function register(){
         //config文件发布后的路径
         config(['config/keysql.php']);
         //绑定自定义命令
-        $this->app->singleton('command.keysql.migration', function ($app) {
-            return new MigrationCommand();
-        });
-        $this->app->singleton('command.keysql.update', function ($app) {
-            return new UpdateKeySql();
-        });
-        $this->app->singleton('command.keysql.py', function ($app) {
-            return new PyCommand();
-        });
-        $this->app->singleton('command.keysql.r', function ($app) {
-            return new RCommand();
-        });
+        $this->commands('Zxc\Keysql\Console\Commands\MigrationCommand');
+        $this->commands('Zxc\Keysql\Console\Commands\UpdateKeySql');
+        $this->commands('Zxc\Keysql\Console\Commands\PyCommand');
+        $this->commands('Zxc\Keysql\Console\Commands\RCommand');
     }
 }

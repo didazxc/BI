@@ -12,7 +12,15 @@
                   @foreach($acts as $act)
                   <li>
                     <a href="{{route('actInfo',$act->id)}}">
-                      <i class="fa fa-{{$act->faicon}} text-{{$act->color}}"></i> {{$act->act_name}}
+                      <i class="fa fa-{{$act->faicon}} text-{{$act->color}}"></i> 
+                      {{$act->act_name}}
+                      <br/>
+                      <small class="pull-right">
+                        <i class="fa fa-clock-o">&nbsp;</i>
+                        {{date('Y-m-d',strtotime($act->online_time))}}
+                        &nbsp;至&nbsp;
+                        {{date('Y-m-d',strtotime($act->offline_time))}}
+                      </small>
                     </a>
                   </li>
                   @endforeach

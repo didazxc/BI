@@ -5,6 +5,10 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use Zxc\Keylib\Traits\KeyLibSchedule;
+use Zxc\Keysql\Traits\KeySqlSchedule;
+use Zxc\Keyalert\Traits\KeyAlertSchedule;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -24,7 +28,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        KeyLibSchedule::schedule($schedule);
+        KeySqlSchedule::schedule($schedule);
+        KeyAlertSchedule::schedule($schedule);
     }
 }

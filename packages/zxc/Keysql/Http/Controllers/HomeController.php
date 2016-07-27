@@ -13,6 +13,7 @@ use Redirect;
 class HomeController extends BaseController
 {
     public function __construct(){
+        
         view()->composer(
             ['keysql::layouts.sidebar','keysql::layouts.breadcrumb'],
             'Zxc\Keysql\Http\ViewComposers\HomeNavComposer');
@@ -56,7 +57,8 @@ class HomeController extends BaseController
             }
             $desc_table=$keysqldb->getDescTable();
         }
-        return view('keysql::home.keysql',compact('sql_id','form','echarts','echartjs','desc_table'));
+        
+        return view('keysql::home.keysql',compact('nav_id','sql_id','form','echarts','echartjs','desc_table'));
     }
 
     public function getwx(Request $request)

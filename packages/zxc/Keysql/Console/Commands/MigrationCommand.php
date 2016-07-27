@@ -29,13 +29,14 @@ class MigrationCommand extends Command
     {
         $this->laravel->view->addNamespace('keysql', substr(__DIR__, 0, -8).'views');
 
-        $key_sql          = config('keysql.keysql_table');
-        $key_sql_nav       = config('keysql.keysqlnav_table');
+        $key_sql          = config('keysql.keysql_table','zxc__key_sql');
+        $key_sql_nav       = config('keysql.keysqlnav_table','zxc__key_sql_nav');
+        $key_sql_access_log       = config('keysql.accesslog_table','zxc__key_sql_access_log');
 
         $this->line('');
-        $this->info( "Tables: $key_sql, $key_sql_nav" );
+        $this->info( "Tables: $key_sql, $key_sql_nav, $key_sql_access_log" );
 
-        $message = "A migration that creates '$key_sql' , '$key_sql_nav'".
+        $message = "A migration that creates '$key_sql' , '$key_sql_nav', '$key_sql_access_log'".
         " tables will be created in database/migrations directory";
 
         $this->comment($message);
@@ -46,7 +47,7 @@ class MigrationCommand extends Command
             $this->line('');
 
             $this->info("Creating migration...");
-            if ($this->createMigration($key_sql, $key_sql_nav)) {
+            if ($this->createMigration($key_sql, $key_sql_nav,$key_sql_access_log)) {
 
                 $this->info("Migration successfully created!");
             } else {
@@ -67,11 +68,11 @@ class MigrationCommand extends Command
      * @param $key_sql_nav
      * @return bool
      */
-    protected function createMigration($key_sql, $key_sql_nav)
+    protected function createMigration($key_sql, $key_sql_nav,$key_sql_access_log)
     {
         $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_keysql_setup_tables.php";
 
-        $data = compact('key_sql', 'key_sql_nav');
+        $data = compact('key_sql', 'key_sql_nav','key_sql_access_log');
 
         $output = $this->laravel->view->make('keysql::generators.migration')->with($data)->render();
 

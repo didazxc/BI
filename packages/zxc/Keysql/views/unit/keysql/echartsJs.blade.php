@@ -1,7 +1,4 @@
     @if($echarts)
-    <script src="{{asset('statics/sparkline/jquery.sparkline.min.js')}}"></script>
-    <script src="{{asset('statics/echarts/echarts.min.js')}}"></script>
-    <script src="{{asset('packages/zxc/js/events.js')}}"></script>
     <script type="text/javascript">
         @foreach($echarts as $k=>$echart)
             @if($echart['chart_type']=='echarts')

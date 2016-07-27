@@ -120,14 +120,28 @@ var datatable = function (id, option) {
                     {
                         text: '均值',
                         action: function ( e, dt, node, config ) {
-                            var avg=dt.column(2).data().reduce(function(a,b){return a+b;});
-                            alert(avg);
+                            var str='';
+                            dt.columns().iterator('column',function( c, i){
+                                var avg=dt.column(i).data().reduce(function(a,b){return parseFloat(a)+parseFloat(b);});
+                                avg=avg/dt.column(i).data().length;
+                                avg=formatMoney(avg);
+                                var title = dt.column(i).header();
+                                str+=$(title).html()+'：'+avg+'\n';
+                            });
+                            alert(str);
                         }
                     },
                     {
                         text: '求和',
                         action: function ( e, dt, node, config ) {
-                            alert();
+                            var str='';
+                            dt.columns().iterator('column',function( c, i){
+                                var sum=dt.column(i).data().reduce(function(a,b){return parseFloat(a)+parseFloat(b);});
+                                sum=formatMoney(sum);
+                                var title = dt.column(i).header();
+                                str+=$(title).html()+'：'+sum+'\n';
+                            });
+                            alert(str);
                         }
                     }
                 ]
@@ -166,10 +180,9 @@ var td2ec_data = function (res) {
     }
     //整理数据
     for (var i in data) {
-        for (k in data[i]) {
-            var num = data[i][k];
-            num = parseInt(num);
-            data_obj[k].push(num);
+        for (var k in columns) {
+            var num = data[i][columns[k]['data']];
+            data_obj[columns[k]['data']].push(num);
         }
     }
     return data_obj;

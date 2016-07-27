@@ -1,8 +1,3 @@
-    <script src="{{asset('statics/codemirror/lib/codemirror.js')}}"></script>
-    <script src="{{asset('statics/codemirror/mode/sql/sql.js')}}"></script>
-    <script src="{{asset('statics/codemirror/addon/selection/active-line.js')}}"></script>
-    <script src="{{asset('statics/codemirror/addon/edit/matchbrackets.js')}}"></script>
-    <script src="{{asset('statics/codemirror/addon/display/fullscreen.js')}}"></script>
     <script type="text/javascript" language="javascript">
         function codeMirror(id) {
             var editor = CodeMirror.fromTextArea(document.getElementById(id), {

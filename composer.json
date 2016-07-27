@@ -10,7 +10,8 @@
         "kalnoy/nestedset": "^4.1",
         "zizaco/entrust": "5.2.x-dev",
         "frozennode/administrator": "dev-master",
-        "barryvdh/laravel-debugbar": "^2.2"
+        "barryvdh/laravel-debugbar": "^2.2",
+        "arcanedev/log-viewer": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -16,12 +16,12 @@ class KeySql extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('keysql.keysql_table');
+        $this->table = config('keysql.keysql_table','zxc__key_sql');
     }
     
     public function user()
     {
-        return $this->belongsTo('App\User','user_id','id');
+        return $this->belongsTo('App\User','username','name');
     }
 
 //本地临时表逻辑——————————————————————————————————————————————————————————————    
@@ -96,6 +96,23 @@ class KeySql extends Model
     
     
 //数据查询逻辑——————————————————————————————————————————————————————————————
+ 
+    //对提交上来的form_array做预处理
+    protected function parseFormArray($form_array=[])
+    {
+        if(!array_key_exists('startdate',$form_array)){
+            $form_array['startdate']=date('Y-m-d',strtotime('-1 day'));
+        }
+        if(!array_key_exists('enddate',$form_array)){
+            $form_array['enddate']=date('Y-m-d');
+        }else{
+            $var_array=json_decode($this->var_json);
+            if($var_array->enddate->type=='date'){
+                $form_array['enddate']=date('Y-m-d',strtotime($form_array['enddate'].' +1 day'));
+            }
+        }
+        return $form_array;
+    } 
     
     /**
      * 系统规则的变量
@@ -226,18 +243,6 @@ class KeySql extends Model
         return $sys_vars;
     }
     
-    //对提交上来的form_array做预处理
-    protected function parseFormArray($form_array=[])
-    {
-        if(!array_key_exists('startdate',$form_array)){
-            $form_array['startdate']=date('Y-m-d',strtotime('-1 day'));
-        }
-        if(!array_key_exists('enddate',$form_array)){
-            $form_array['enddate']=date('Y-m-d');
-        }
-        return $form_array;
-    }
-    
     //从临时表数据库查询数据
     protected function getThisData($form_array)
     {
@@ -324,6 +329,14 @@ class KeySql extends Model
     public function getWxStr($form_array)
     {
         $data=$this->getData($form_array);
+        
+            foreach($data as $dk=>$dv){
+                foreach($dv as $k=>$v){
+                    $datas['data_'.$dk.'_'.$k]=$v;
+                }
+            }
+
+        extract($datas);
         $wx_str=$this->wx_str;
         $wx_str=str_replace(chr(13),'<br/>',$wx_str);
         $wx_str=str_replace(chr(10),'<br/>',$wx_str);
@@ -384,8 +397,10 @@ class KeySql extends Model
         }else{
             $columns=[];
             $option=[];
-            foreach($data[0] as $k=>$v){
-                $columns[] = ['data' => $k, 'title' => $k];
+            if($data){
+                foreach($data[0] as $k=>$v){
+                    $columns[] = ['data' => $k, 'title' => $k];
+                }
             }
         }
         

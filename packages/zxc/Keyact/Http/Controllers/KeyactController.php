@@ -30,9 +30,15 @@ class KeyactController extends BaseController
 		$this->validate($request, [
 			'act_name' => 'required|max:255',
 			'goal' => 'required',
-			'online_time' => 'required',
-			'offline_time' => 'required',
-		]);
+			'online_time' => 'required|date',
+			'offline_time' => 'required|date',
+		],[
+            'act_name.required' => '名称未填写.',
+            'online_time.required' => '上线时间未填写.',
+            'online_time.date' => '上线时间请填写日期.',
+            'offline_time.required' => '下线时间未填写.',
+            'offline_time.date' => '下线时间填写日期.',
+        ]);
 		$act=$request->input('id')?KeyAct::find($request->input('id')):new KeyAct();
 		$act->username=Auth::user()->name;
 		$act->pattern=$request->input('pattern');
@@ -43,7 +49,7 @@ class KeyactController extends BaseController
 		$act->online_intro=$request->input('online_intro');
 		$act->offline_intro=$request->input('offline_intro');
 		$act->save();
-		return Redirect::route('getList');
+		return Redirect::route('actList');
 	}
 	
 	public function getList(Request $request)
@@ -60,7 +66,7 @@ class KeyactController extends BaseController
 			$act=KeyAct::find($request->input('id'));
 			return view('keyact::home.info',compact('act'));
 		}else{
-			return Redirect::route('getList');
+			return Redirect::route('actList');
 		}
 	}
 	

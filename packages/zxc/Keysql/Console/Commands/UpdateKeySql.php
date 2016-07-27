@@ -5,6 +5,7 @@ namespace Zxc\Keysql\Console\Commands;
 use Illuminate\Console\Command;
 use DB;
 use \Zxc\Keysql\Models\KeySql;
+use Log;
 
 class UpdateKeySql extends Command
 {
@@ -40,10 +41,17 @@ class UpdateKeySql extends Command
     public function handle()
     {
         echo '更新KeySql数据...'.chr(13).chr(10);
+        ob_start();
+        
         $t1=time();
         $id_array=json_decode($this->argument('id_array'));
         KeySql::updateByKeySql($this->argument('cycle'),$this->argument('startdate'),$this->argument('enddate'),$id_array,true);
         $t2=time();
         echo 'KeySql数据更新完毕，用时'.($t2-$t1).'秒';
+        $string = ob_get_contents();
+        $title='更新KeySql数据: '.implode(' ',$this->argument()).' 用时'.($t2-$t1).'秒';
+        Log::info($title.chr(13).chr(10).$string);
+        ob_flush();
+        ob_end_clean();
     }
 }

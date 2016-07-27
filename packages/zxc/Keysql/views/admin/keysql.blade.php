@@ -1,6 +1,5 @@
 @extends('keysql::admin.home')
 
-
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -23,17 +22,7 @@
     </div>
 @endsection
 
-@section('css')
-<link rel="stylesheet" href="{{asset('statics/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('statics/DataTables/extensions/Select/css/select.bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('statics/multiselect/dist/css/bootstrap-multiselect.css')}}">
-@endsection
-
 @section('script')
-    <script src="{{asset('statics/DataTables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('statics/DataTables/extensions/Responsive/js/responsive.bootstrap.min.js')}}"></script>
-    <script src="{{asset('statics/multiselect/dist/js/bootstrap-multiselect.js')}}"></script>
-    <script src="{{asset('statics/DataTables/extensions/Select/js/dataTables.select.min.js')}}"></script>
     <script type="text/javascript">
         $(function(){
             var res=eval({!! json_encode($res) !!});

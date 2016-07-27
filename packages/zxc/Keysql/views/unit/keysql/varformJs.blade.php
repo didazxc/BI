@@ -1,28 +1,33 @@
-
-    <script src="{{asset('statics/datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
-    <script src="{{asset('statics/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
     <script type="text/javascript">
-        
-            //datetimepicker
-            $('.form_date').datetimepicker({
-                language: 'zh-CN',
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-            $('.form_datetime').datetimepicker({
-                language: 'zh-CN',
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 0,
-                forceParse: 0
-            });
-        
+        //daterangepicker
+        $('input.form_date').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                "format": "YYYY-MM-DD",
+                "separator": " 至 ",
+                "applyLabel": "确认",
+                "cancelLabel": "取消",
+                "fromLabel": "起",
+                "toLabel": "止",
+                "customRangeLabel": "自定义",
+                "weekLabel": "周"
+            }
+        });
+        $('input.form_datetime').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            locale: {
+                "format": "YYYY-MM-DD HH:mm",
+                "separator": " 至 ",
+                "applyLabel": "确认",
+                "cancelLabel": "取消",
+                "fromLabel": "起",
+                "toLabel": "止",
+                "customRangeLabel": "自定义",
+                "weekLabel": "周"
+            }
+        });
     </script>

@@ -5,6 +5,7 @@ namespace Zxc\Keylib\Models;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
 use DB;
+use Log;
 
 class KeyLibSql extends Model
 {

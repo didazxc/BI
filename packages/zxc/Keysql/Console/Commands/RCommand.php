@@ -28,10 +28,18 @@ class RCommand extends Command
     public function handle()
     {
         echo '开始运行R脚本...'.chr(13).chr(10);
+        ob_start();
+        
         $t1=time();
         $this->R($this->argument('file'));
         $t2=time();
         echo 'R脚本运行完毕，用时'.($t2-$t1).'秒';
+        
+        $string = ob_get_contents();
+        $title='keysql运行R脚本: '.implode(' ',$this->argument()).' 用时'.($t2-$t1).'秒';
+        Log::info($title.chr(13).chr(10).$string);
+        ob_flush();
+        ob_end_clean();
     }
 
     /*
