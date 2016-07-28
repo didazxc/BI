@@ -16,7 +16,7 @@
           <div class="box-body">
             <table id="table" class="table table-hover">
                 <thead>
-                <tr><th>严重程度</th><th>预警内容</th><th>汇报时间</th></tr>
+                <tr><th>严重程度</th><th>预警周期</th><th>汇报时间</th><th>预警内容</th></tr>
                 </thead>
                 <tbody>
                 @foreach($alertlist as $alert)
@@ -25,10 +25,13 @@
                         <i class="fa {{$alert->script->faicon?$alert->script->faicon:'fa-warning'}} text-{{$alert->color}}">{{$alert->pro}}</i>
                     </td>
                     <td>
-                        <span>{{$alert->alert_desc}}</span>
+                        <span>{{$alert->cronname}}</span>
                     </td>
                     <td>
                         <small class="pull-right"><i class="fa fa-clock-o">&nbsp;</i>{{date('m-d H:i',strtotime($alert->logtime))}}</small>
+                    </td>
+                    <td>
+                        <span>{{$alert->alert_desc}}</span>
                     </td>
                 </tr>
                 @endforeach
