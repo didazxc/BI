@@ -42,4 +42,16 @@ class KeySqlNav extends Model
         }
     }
     
+    public function is_leaf(){
+        return $this->_rgt-1==$this->_lft;
+    }
+    
+    public function parentnav(){
+        $parentnav=$this->where('_lft','<',$this->_lft)
+                ->where('_rgt','>',$this->_rgt)
+                ->where('id','>','1')
+                ->orderBy('_rgt')
+                ->first();
+        return $parentnav;
+    }
 }

@@ -50,7 +50,13 @@ class UpdateKeySql extends Command
         echo 'KeySql数据更新完毕，用时'.($t2-$t1).'秒';
         $string = ob_get_contents();
         $title='更新KeySql数据: '.implode(' ',$this->argument()).' 用时'.($t2-$t1).'秒';
-        Log::info($title.chr(13).chr(10).$string);
+        $logstr=$title.chr(13).chr(10).$string;
+        if(strpos($string,'失败')){
+            Log::warning($logstr);
+        }elseif($this->argument('cycle')!='realtime'){
+            Log::info($logstr);
+        }
+        
         ob_flush();
         ob_end_clean();
     }

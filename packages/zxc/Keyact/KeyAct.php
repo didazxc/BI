@@ -37,6 +37,7 @@ class KeyAct extends Model
 			'产品功能',
 			'版本更新',
             'bug问题',
+            '代码更新',
             '严重宕机',
 			'其他',
 		];
@@ -53,6 +54,7 @@ class KeyAct extends Model
 			'aqua',
 			'aqua',
             'red',
+            'aqua',
             'red',
 			'aqua',
 		];
@@ -71,6 +73,7 @@ class KeyAct extends Model
 			'toggle-off',
 			'refresh',
             'bug',
+            'code',
             'anchor',
 			'cicle-o',
 		];

@@ -57,8 +57,8 @@ class ValidateKeysql {
             return true;
         }
         //如果是叶子节点，则权限同其父类的权限
-        if($nav->_rgt-1==$nav->_lft){
-            $parentnav=$nav->ancestors()->where('id','>','1')->orderBy('_rgt')->first();
+        if($nav->is_leaf()){
+            $parentnav=$nav->parentnav();
             if($parentnav){
                 if($this->auth->user()->can($parentnav->permission)){
                     return true;

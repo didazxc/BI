@@ -16,12 +16,11 @@ class HomeController extends BaseController
         
         $hour=$request->has('H')?$request->input('H'):'09';
         $min=$request->has('i')?$request->input('i'):'30';
-
-        if(date('H')==$hour && intval(date('i'))<$min)
+        
+        $cycle=$request->has('cycle')?$request->input('cycle'):'daily';
+        
+        if($cycle=='h' || $cycle=='i' || (date('H')==$hour && intval(date('i'))<$min))
         {
-            
-            $cycle=$request->has('cycle')?$request->input('cycle'):'h';
-
             switch($cycle){
                 case 'd':
                 case 'day':
@@ -42,13 +41,10 @@ class HomeController extends BaseController
                     $mintime=date('Y-m-d H:i:00',strtotime('-1 month'));
                     break;
                 case 'i':
-                case 'minute':
                     $cron=8;
                     $mintime=date('Y-m-d H:i:00',strtotime('-1 minute'));
                     break;
                 case 'h':
-                case 'hour':
-                case 'hourly':
                 default:
                     $cron=16;
                     $mintime=date('Y-m-d H:i:00',strtotime('-1 hour'));

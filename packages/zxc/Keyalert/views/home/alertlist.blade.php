@@ -14,7 +14,7 @@
             </div><!-- /.box-tools -->
           </div><!-- /.box-header -->
           <div class="box-body">
-            <table id="table" class="table table-hover">
+            <table id="table" class="table table-hover" style="width: 100%;">
                 <thead>
                 <tr><th>严重程度</th><th>预警周期</th><th>汇报时间</th><th>预警内容</th></tr>
                 </thead>

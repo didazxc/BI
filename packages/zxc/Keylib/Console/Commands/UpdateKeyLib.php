@@ -35,7 +35,7 @@ class UpdateKeyLib extends Command
         
             $t1=time();
             $id_array=json_decode($this->argument('id_array'));
-            KeyLibSql::updateKeyLib($this->argument('cycle'),$this->argument('startdate'),$this->argument('enddate'),$id_array,true);
+            KeyLibSql::updateKeyLib($this->argument('cycle'),$this->argument('startdate'),$this->argument('enddate'),$id_array,true,true);
             $t2=time();
             echo 'KeyLib数据更新完毕，用时'.($t2-$t1).'秒';
         

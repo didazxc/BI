@@ -41,5 +41,6 @@ class KeysqlServiceProvider extends ServiceProvider
         $this->commands('Zxc\Keysql\Console\Commands\UpdateKeySql');
         $this->commands('Zxc\Keysql\Console\Commands\PyCommand');
         $this->commands('Zxc\Keysql\Console\Commands\RCommand');
+        $this->commands('Zxc\Keysql\Console\Commands\MailCommand');
     }
 }

@@ -4,6 +4,7 @@ namespace Zxc\Keyalert\Console\Commands;
 
 use Illuminate\Console\Command;
 use DB;
+use Mockery\Exception;
 use Zxc\Keyalert\Models\KeyAlert;
 use Zxc\Keyalert\Models\KeyAlertScripts;
 use Log;

@@ -48,7 +48,7 @@ class KeyLibSql extends Model
      * @param $enddate
      * @return array
      */
-    private function getSysVars($cycle=1,$startdate,$enddate){
+    private function getSysVars($cycle,$startdate,$enddate){
         $sqlstr=$this->getAttribute('sqlstr');
         if($sqlstr){
             preg_match_all('/(?<=\$_)\w+/i',$sqlstr,$matches);
@@ -148,24 +148,24 @@ class KeyLibSql extends Model
         return $sys_vars;
     }
 
-    private function parseSQL($cycle=1,$startdate='',$enddate='',$debug=false){
+    private function parseSQL($cycle,$startdate,$enddate,$debug=false){
         switch($cycle){
             case 8:
-                $startdate=$startdate?date('Y-m-d H:i:s',strtotime($startdate)):date('Y-m-d H:i:s',strtotime('-1 hour'));
-                $enddate=$enddate?date('Y-m-d H:i:s',strtotime($enddate)):date('Y-m-d H:i:s');
+                $startdate=date('Y-m-d H:i:s',strtotime($startdate));
+                $enddate=date('Y-m-d H:i:s',strtotime($enddate));
                 break;
             case 4:
-                $startdate=$startdate?date('Y-m-01',strtotime($startdate)):date('Y-m-01',strtotime('-1 month'));
-                $enddate=$enddate?date('Y-m-01',strtotime($enddate)):date('Y-m-01');
+                $startdate=date('Y-m-01',strtotime($startdate));
+                $enddate=date('Y-m-01',strtotime($enddate));
                 break;
             case 2:
-                $startdate=$startdate?date('Y-m-d',strtotime($startdate.' sunday -6 day')):date('Y-m-d',strtotime('last sunday -6 day'));
-                $enddate=$enddate?date('Y-m-d',strtotime($enddate.' sunday -6 day')):date('Y-m-d',strtotime('sunday -6 day'));
+                $startdate=date('Y-m-d',strtotime($startdate.' sunday -6 day'));
+                $enddate=date('Y-m-d',strtotime($enddate.' sunday -6 day'));
                 break;
             case 1:
             default:
-                $startdate=$startdate?date('Y-m-d',strtotime($startdate)):date('Y-m-d',strtotime('-1 day'));
-                $enddate=$enddate?date('Y-m-d',strtotime($enddate)):date('Y-m-d');
+                $startdate=date('Y-m-d',strtotime($startdate));
+                $enddate=date('Y-m-d',strtotime($enddate));
                 break;
         }
         extract($this->getSysVars($cycle,$startdate,$enddate));
@@ -239,7 +239,7 @@ class KeyLibSql extends Model
         return $key_id_json_array;
     }
 
-    public function getDataArray($cycle=1,$startdate='',$enddate='',$debug=false){
+    public function getDataArray($cycle,$startdate,$enddate,$debug=false){
         try{
             $sqlstr=$this->parseSQL($cycle,$startdate,$enddate,$debug);
             $data=$this->getData($sqlstr,$debug);
@@ -252,7 +252,42 @@ class KeyLibSql extends Model
         return $data;
     }
 
-    public function updateData($cycle='daily',$startdate='',$enddate='',$debug=false){
+    public function updateDataByStep($cycle='daily',$startdate='',$enddate='',$debug=false){
+        $cycle=$this->cycle_array[$cycle];
+        switch($cycle){
+            case 8:
+                $format='Y-m-d H:i:s';
+                $startdate=$startdate?date('Y-m-d H:i:s',strtotime($startdate)):date('Y-m-d H:i:s',strtotime('-1 hour'));
+                $enddate=$enddate?date('Y-m-d H:i:s',strtotime($enddate)):date('Y-m-d H:i:s');
+                $step=' +1 day ';
+                break;
+            case 4:
+                $format='Y-m-01';
+                $startdate=$startdate?date('Y-m-01',strtotime($startdate)):date('Y-m-01',strtotime('-1 month'));
+                $enddate=$enddate?date('Y-m-01',strtotime($enddate)):date('Y-m-01');
+                $step=' +1 month ';
+                break;
+            case 2:
+                $format='Y-m-d';
+                $startdate=$startdate?date('Y-m-d',strtotime($startdate.' sunday -6 day')):date('Y-m-d',strtotime('last sunday -6 day'));
+                $enddate=$enddate?date('Y-m-d',strtotime($enddate.' sunday -6 day')):date('Y-m-d',strtotime('sunday -6 day'));
+                $step=' +1 week ';
+                break;
+            case 1:
+            default:
+                $format='Y-m-d';
+                $startdate=$startdate?date('Y-m-d',strtotime($startdate)):date('Y-m-d',strtotime('-1 day'));
+                $enddate=$enddate?date('Y-m-d',strtotime($enddate)):date('Y-m-d');
+                $step=' +1 day ';
+                break;
+        }
+        for($i=$startdate;$i<$enddate;$i=$j){
+            $j=date($format,strtotime($i.$step));
+            $this->updateData($cycle,$i,$j,$debug);
+        }
+    }
+    
+    public function updateData($cycle,$startdate,$enddate,$debug=false){
 
         $cycle=$this->cycle_array[$cycle];
 
@@ -296,7 +331,7 @@ class KeyLibSql extends Model
     }
 
     //以下为数据输入模块——————————————————————————————————————
-    static function updateKeyLib($cycle='daily',$startdate='',$enddate='',$id_array=[],$debug=false){
+    static function updateKeyLib($cycle='daily',$startdate='',$enddate='',$id_array=[],$byStep=true,$debug=true){
         switch($cycle){
             case 'daily':
                 $crons=[1,3,5,7];
@@ -324,7 +359,11 @@ class KeyLibSql extends Model
             if($debug){
                 echo 'sql_id='.$sql_i->id.' : '.chr(10).chr(13);
             }
-            $sql_i->updateData($cycle,$startdate,$enddate,$debug);
+            if($byStep){
+                $sql_i->updateDataByStep($cycle,$startdate,$enddate,$debug);
+            }else{
+                $sql_i->updateData($cycle,$startdate,$enddate,$debug);
+            }
         }
     }
 

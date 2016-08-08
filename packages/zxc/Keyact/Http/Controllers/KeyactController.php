@@ -54,7 +54,7 @@ class KeyactController extends BaseController
 	
 	public function getList(Request $request)
 	{
-		$startdate=$request->input('startdate',date('Y-m-d',strtotime('-14 day')));
+		$startdate=$request->input('startdate',date('Y-m-d',strtotime('-6 month')));
 		$enddate=$request->input('enddate',date('Y-m-d',strtotime('+14 day')));
 		$list=KeyAct::whereBetween('online_time',[$startdate,$enddate])->get();
         return view('keyact::home.list',compact('list','startdate','enddate'));

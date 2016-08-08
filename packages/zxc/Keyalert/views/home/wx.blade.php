@@ -27,7 +27,7 @@
     }
 
     setInterval(function(){
-        open("{{asset('wx/15?startdate=&enddate=&term=0')}}", "", "fullscreen=1")
+        open("{{asset('keyalert/wx?cycle=h')}}", "", "fullscreen=1")
     }, 24*60*60*1000);
 
     //*/

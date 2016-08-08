@@ -204,6 +204,16 @@ return [
 			'prefix'    => '',
 			'strict'    => false,
 		],
+        'qq_stats_sqlsrv' => [
+            'driver'   => 'sqlsrv',
+            'host'     => '192.168.2.51',#120.132.38.51'
+            'port' => '18991',
+            'database' => 'QIQI_Stats',
+            'username' => 'qiqi_stats_read',
+            'password' => 'BVGSehTyTy45m45fg',
+            'charset'  => 'GBK',
+            'prefix'   => '',
+        ],
 
     ],
 
